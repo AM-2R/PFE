@@ -97,7 +97,7 @@ def Gloton(Adj):
 # %%
 Adj
 C=Gloton(Adj)
-def fjk(Adj,C)
+def fjk(Adj,C):
 listco = []
 
 def co_adj(Adj,C):
