@@ -1,0 +1,180 @@
+graph "Terminal 2" {
+	graph [bgcolor="#ffffff00" fontcolor=grey fontsize=16 label="Terminal 2" overlap=false]
+	node [color=grey fixedsize=true fontsize=14 shape=circle style=filled width=0.4]
+	edge [arrowsize=0.7 color=grey fontcolor=grey fontsize=12]
+	node [fillcolor="#ffffff"]
+	0
+	node [fillcolor="#ffba00"]
+	1
+	node [fillcolor="#ffffff"]
+	2
+	node [fillcolor="#ffffff"]
+	3
+	node [fillcolor="#ffba00"]
+	4
+	node [fillcolor="#5cff00"]
+	5
+	node [fillcolor="#ffffff"]
+	6
+	node [fillcolor="#ffffff"]
+	7
+	node [fillcolor="#ffba00"]
+	8
+	node [fillcolor="#5cff00"]
+	9
+	node [fillcolor="#00ff8c"]
+	10
+	node [fillcolor="#008fff"]
+	11
+	node [fillcolor="#5a00ff"]
+	12
+	node [fillcolor="#ffffff"]
+	13
+	node [fillcolor="#ffba00"]
+	14
+	node [fillcolor="#ffffff"]
+	15
+	node [fillcolor="#ffba00"]
+	16
+	node [fillcolor="#5cff00"]
+	17
+	node [fillcolor="#ffffff"]
+	18
+	node [fillcolor="#ffba00"]
+	19
+	node [fillcolor="#ffffff"]
+	20
+	node [fillcolor="#ffba00"]
+	21
+	node [fillcolor="#5cff00"]
+	22
+	node [fillcolor="#ffffff"]
+	23
+	node [fillcolor="#ffba00"]
+	24
+	node [fillcolor="#ffffff"]
+	25
+	node [fillcolor="#ffffff"]
+	26
+	node [fillcolor="#ffffff"]
+	27
+	node [fillcolor="#ffba00"]
+	28
+	node [fillcolor="#ffffff"]
+	29
+	node [fillcolor="#ffba00"]
+	30
+	node [fillcolor="#ffffff"]
+	31
+	node [fillcolor="#ffffff"]
+	32
+	node [fillcolor="#ffffff"]
+	33
+	node [fillcolor="#ffffff"]
+	34
+	node [fillcolor="#ffffff"]
+	35
+	node [fillcolor="#ffba00"]
+	36
+	node [fillcolor="#5cff00"]
+	37
+	node [fillcolor="#ffffff"]
+	38
+	node [fillcolor="#ffffff"]
+	39
+	node [fillcolor="#ffba00"]
+	40
+	node [fillcolor="#ffffff"]
+	41
+	node [fillcolor="#ffffff"]
+	42
+	node [fillcolor="#ffba00"]
+	43
+	node [fillcolor="#5cff00"]
+	44
+	node [fillcolor="#00ff8c"]
+	45
+	node [fillcolor="#ffffff"]
+	46
+	node [fillcolor="#ffffff"]
+	47
+	node [fillcolor="#ffba00"]
+	48
+	node [fillcolor="#ffffff"]
+	49
+	node [fillcolor="#ffba00"]
+	50
+	node [fillcolor="#ffffff"]
+	51
+	node [fillcolor="#ffba00"]
+	52
+	node [fillcolor="#ffffff"]
+	53
+	node [fillcolor="#ffba00"]
+	54
+	node [fillcolor="#ffffff"]
+	55
+	node [fillcolor="#ffffff"]
+	56
+	node [fillcolor="#ffba00"]
+	57
+	node [fillcolor="#5cff00"]
+	58
+	node [fillcolor="#ffffff"]
+	59
+	node [fillcolor="#ffffff"]
+	60
+	node [fillcolor="#ffffff"]
+	61
+	node [fillcolor="#ffba00"]
+	62
+	0 -- 1
+	3 -- 4
+	3 -- 5
+	4 -- 5
+	7 -- 8
+	7 -- 9
+	7 -- 10
+	7 -- 11
+	7 -- 12
+	8 -- 9
+	8 -- 10
+	8 -- 11
+	8 -- 12
+	9 -- 10
+	9 -- 11
+	9 -- 12
+	10 -- 11
+	10 -- 12
+	11 -- 12
+	13 -- 14
+	15 -- 16
+	15 -- 17
+	16 -- 17
+	18 -- 19
+	20 -- 21
+	20 -- 22
+	21 -- 22
+	23 -- 24
+	27 -- 28
+	29 -- 30
+	35 -- 36
+	35 -- 37
+	36 -- 37
+	39 -- 40
+	42 -- 43
+	42 -- 44
+	42 -- 45
+	43 -- 44
+	43 -- 45
+	44 -- 45
+	47 -- 48
+	49 -- 50
+	51 -- 52
+	52 -- 53
+	53 -- 54
+	56 -- 57
+	56 -- 58
+	57 -- 58
+	61 -- 62
+}

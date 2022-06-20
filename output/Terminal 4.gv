@@ -1,0 +1,58 @@
+graph "Terminal 4" {
+	graph [bgcolor="#ffffff00" fontcolor=grey fontsize=16 label="Terminal 4" overlap=false]
+	node [color=grey fixedsize=true fontsize=14 shape=circle style=filled width=0.4]
+	edge [arrowsize=0.7 color=grey fontcolor=grey fontsize=12]
+	node [fillcolor="#ffffff"]
+	0
+	node [fillcolor="#ffffff"]
+	1
+	node [fillcolor="#ffffff"]
+	2
+	node [fillcolor="#ffffff"]
+	3
+	node [fillcolor="#00ff8c"]
+	4
+	node [fillcolor="#ffffff"]
+	5
+	node [fillcolor="#ffffff"]
+	6
+	node [fillcolor="#00ff8c"]
+	7
+	node [fillcolor="#ffffff"]
+	8
+	node [fillcolor="#ffffff"]
+	9
+	node [fillcolor="#ffffff"]
+	10
+	node [fillcolor="#ffffff"]
+	11
+	node [fillcolor="#ffffff"]
+	12
+	node [fillcolor="#ffffff"]
+	13
+	node [fillcolor="#ffffff"]
+	14
+	node [fillcolor="#ffffff"]
+	15
+	node [fillcolor="#00ff8c"]
+	16
+	node [fillcolor="#ffffff"]
+	17
+	node [fillcolor="#00ff8c"]
+	18
+	node [fillcolor="#ffffff"]
+	19
+	node [fillcolor="#00ff8c"]
+	20
+	node [fillcolor="#ffffff"]
+	21
+	node [fillcolor="#00ff8c"]
+	22
+	3 -- 4
+	4 -- 5
+	6 -- 7
+	15 -- 16
+	17 -- 18
+	19 -- 20
+	21 -- 22
+}
