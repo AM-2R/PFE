@@ -3,12 +3,12 @@ from cProfile import label
 from fileinput import filename
 from msilib.schema import RadioButton
 import os
+import sys
 from tkinter import *
 from tkinter import filedialog, Text, Image, ttk
 from PIL import ImageTk, Image
 from click import command
 from main import *
-from Operationpyomo import *
 root = Tk()
 root.title('ACP')
 root.iconbitmap('assets/ACP.ico')
@@ -125,14 +125,14 @@ v1 = IntVar()
 
 
 def nuit():
-    Br='nuit'
+    Br='Nuit'
     BrigadeCheck(Br)
     print(Br)
     Operations02()
 
 
 def jour():
-    Br='journee'
+    Br='Journee'
     print(Br)
     BrigadeCheck(Br)
     Operations02()
@@ -168,7 +168,7 @@ L41 = Label(root, background='white',
             font=('Segoe UI', 12, 'bold'),
             bg='white',
             fg='#707070',
-            text="Le nombre minimum possible est : {min_Conducteur}")
+            text="Le nombre minimum possible est : " + str({min_Conducteur}))
 L41.place(x=30, y=610)
 
 # input yakho
@@ -228,11 +228,11 @@ img4 = ImageTk.PhotoImage(re)
 
 
 def FinalOpe():
-    print ("hello")
+    os.system(r'Operationpyomo.py')
     
 Button(root, image=img4, bd=0, bg='#ffffff',
        activebackground='#ffffff',
-       command=OperationTata).place(x=30, y=740)
+       command=FinalOpe).place(x=30, y=740)
 
 
 

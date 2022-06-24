@@ -14,9 +14,13 @@ import pyomo.environ
 
 # %% [markdown]
 Data=''
+Nuit_par1=19
+Nuit_par2=8
 # Imprting Data from excel File using pandas lib
 def Operation01(link):
     global Data
+    global Nuit_par1
+    global Nuit_par2
 # %%
     Data = pd.read_excel(link)
     Data.info
@@ -140,7 +144,7 @@ def Operation01(link):
     Data['Brigade']=Brigade
 
 
-print(Data)
+
 
 Brigade=''
 Date=''
@@ -167,14 +171,16 @@ def Operations02():
     global Value_Terminal
     global Adj
     global min_Conducteur
-
+    global Nuit_par1
+    global Nuit_par2
+    print(Data)
     print(Date)
     print(Brigade)
     if Brigade=='Journee':
-        Selected_Data=pd.Data.loc[(Data['Date'] == Date) & (Data['Brigade'] == Brigade) ]
+        Selected_Data=Data.loc[(Data['Date'] == Date) & (Data['Brigade'] == Brigade) ]
     elif Brigade=='Nuit':
-        Time01 = dt.datetime.strptime(str(Date)+" 19:00:00", '%Y-%m-%d %H:%M:%S')
-        Time02 = dt.datetime.strptime(str(Date)+" 08:00:00", '%Y-%m-%d %H:%M:%S')
+        Time01 = dt.datetime.strptime(str(Date)+" "+str(Nuit_par1)+":00:00", '%Y-%m-%d %H:%M:%S')
+        Time02 = dt.datetime.strptime(str(Date)+" "+str(Nuit_par2)+":00:00", '%Y-%m-%d %H:%M:%S')
 
         Time01=Trans_to_min(Time01)
         Time02=Trans_to_min(Time02) + 24*60
@@ -186,7 +192,7 @@ def Operations02():
             Time=Trans_to_min(Time)
             if Time >= Time01 and Time < Time02 :
                 Selected.append(Data['DATETIME'][i])
-        Selected_Data = pd.Data.loc[Data['DATETIME'].isin(Selected)]
+        Selected_Data = Data.loc[Data['DATETIME'].isin(Selected)]
 
     print(Selected_Data)
     Graph_intervale=[]
