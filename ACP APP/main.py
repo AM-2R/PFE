@@ -145,17 +145,19 @@ print(Data)
 Brigade=''
 Date=''
 
-Selected_Data=''
-Ex=0
-Value_Terminal=0
-Adj=0
-min_Conducteur=0
+
 def DateCheck(Dt):
     global Date
     Date=Dt
 def BrigadeCheck(Br):
     global Brigade
     Brigade=Br
+
+Selected_Data=[]
+Ex=0
+Value_Terminal=0
+Adj=0
+min_Conducteur=0
 def Operations02():
     global Data
     global Selected_Data
@@ -165,9 +167,12 @@ def Operations02():
     global Value_Terminal
     global Adj
     global min_Conducteur
+
+    print(Date)
+    print(Brigade)
     if Brigade=='Journee':
-        Selected_Data=Data.loc[(Data['Date'] == Date) & (Data['Brigade'] == Brigade) ]
-    if Brigade=='Nuit':
+        Selected_Data=pd.Data.loc[(Data['Date'] == Date) & (Data['Brigade'] == Brigade) ]
+    elif Brigade=='Nuit':
         Time01 = dt.datetime.strptime(str(Date)+" 19:00:00", '%Y-%m-%d %H:%M:%S')
         Time02 = dt.datetime.strptime(str(Date)+" 08:00:00", '%Y-%m-%d %H:%M:%S')
 
@@ -181,16 +186,13 @@ def Operations02():
             Time=Trans_to_min(Time)
             if Time >= Time01 and Time < Time02 :
                 Selected.append(Data['DATETIME'][i])
-        Selected_Data = Data.loc[Data['DATETIME'].isin(Selected)]
+        Selected_Data = pd.Data.loc[Data['DATETIME'].isin(Selected)]
 
     print(Selected_Data)
-
-
-    # %% [markdown]
-    # Slection of the brigade based on the need , the pd.loc will filter based on the condition ,but the indexes will stay the same.
-
-    # %%
-    Graph_intervale=Selected_Data["Graph_intervale"]
+    Graph_intervale=[]
+    for i in Selected_Data["Graph_intervale"]:
+        Graph_intervale.append(i)
+    # Graph_intervale=Selected_Data["Graph_intervale"]
     Graph_intervale=np.array(Graph_intervale) #doing array to remove the indexes from the selections before , also sice we require a type list for our code to work 
     print(Graph_intervale)
 
@@ -259,130 +261,6 @@ def ConducteurCheck(C):
     Conducteur=C
 
 
-
-# Creation of a Concrete Model
-model = ConcreteModel()
-
-# %%
-model.C = Set(initialize=range(Conducteur), doc='les Conducteur')
-model.J = Set(initialize=range(len(Adj)), doc='les jobs')
-model.A = Set(initialize=range(len(Ex[0])), doc='les arcs')
-model.t = Set (initialize=[1,2,4], doc='Terminal')
-# %%
-model.n = Param(initialize=len(Adj), doc='le nombre de jobs')
-model.c = Param(initialize=Conducteur, doc='le nombre de conducteur')
-model.m = Param(initialize=len(Ex[1]), doc='les relations entre les arcs')
-model.ex1 = Param(model.A,initialize=Ex[0], doc='extrémité 1')
-model.ex2 = Param(model.A,initialize=Ex[1], doc='extrémité 2')
-model.T = Param(model.J,initialize=Value_Terminal, doc='les Terminal Affecté')
-# %%
-model.x = Var(model.C, model.J,domain=Binary, doc='affectation conducteur')
-model.alpha = Var(model.C, model.t,domain=Binary, doc='affectation conducteur au terminal')
-model.v = Var(model.C,bounds=(0,None),domain=Integers, doc='les taches')
-model.y = Var(model.t,bounds=(0,None),domain=Integers, doc='valeur de comparaison')
-
-# %%
-def Cotraint1(model,j):
-  return sum(model.x[i,j] for i in model.C) == 1
-model.C1 = Constraint(model.J, rule=Cotraint1, doc='verification daffectation')
-
-
-def Contraint2(model,i,k):
-  return ((model.x[i,model.ex1[k]]+model.x[i,model.ex2[k]])) <= 1  
-
-model.C2 = Constraint (model.C,model.A, rule=Contraint2, doc='verification de non chevauchement ')
-
-def Contraint3(model,i):
-  return sum(model.alpha[i,k] for k in model.t) == 1
-model.C5 = Constraint(model.C, rule=Contraint3, doc='verification daffectation de terminal')
-
-def Contraint4(model,i,j):
-  return (model.alpha[i,model.T[j]] >= model.x[i,j] )
-model.C6 = Constraint(model.C,model.J, rule=Contraint4, doc='verification daffectation au t')
-
-
-def Contraint5(model,i):
-  return sum(model.x[i,j] for j in model.J)==model.v[i]
-
-model.C3 = Constraint (model.C, rule=Contraint5, doc='une seul tache par conducteur')
-
-def Contraint6(model,i,k):
-  return (model.alpha[i,k]*model.v[i]<=model.y[k])
-
-model.C4 = Constraint (model.C,model.t, rule=Contraint6, doc='maximiser')
-
-# %%
-
-# %%
-def objective_rule(model):
-  return sum(model.y[k] for k in model.t)
-model.objective = Objective(rule=objective_rule, sense=minimize, doc='Define objective function')
-
-
-
-# %%
-def pyomo_postprocess(options=None, instance=None, results=None):
-  model.x.display()
-# %%
-
-
-opt = SolverFactory("gurobi")
-results = opt.solve(model,tee=True)
-#sends results to stdout
-results.write()
-print("\nDisplaying Solution\n" + '-'*60)
-pyomo_postprocess(None, model, results)
-# %%
-
-
-
-
-# %%
-model.v.display()
-#verfy how much each driver is working per day
-
-# %%
-model.y.display()
-
-# %%
-x=model.x
-Group_co=[]
-Conducteur_ID=[0]*len(Adj)
-for i in model.C:
-    Group_co.append([])
-    for j in model.J:
-        if x[i,j].value == 1:
-            Group_co[i].append(j)
-            Conducteur_ID[j]=i
-
-print(Group_co)
-print(Conducteur_ID)
-
-# %%
-Selected_Data['Conducteur_ID']=Conducteur_ID
-Selected_Data.drop('DATETIME', inplace=True, axis=1)
-Selected_Data.drop('Graph_intervale', inplace=True, axis=1)
-
-Selected_Data.head
-
-# %%
-
-import xlwt
-from tempfile import TemporaryFile
-
-import xlwt
-from xlwt.Workbook import *
-from pandas import ExcelWriter
-import xlsxwriter
-book = pd.ExcelWriter('Conducteur'+str(Date)+'-'+str(Brigade)+'.xlsx', engine='xlsxwriter')
-Selected_Data.to_excel(book, sheet_name='recaputulation ')
-
-for i in model.C:
-    DATA=Selected_Data.loc[Selected_Data['Conducteur_ID'] == i]
-    DATA.drop('Conducteur_ID', inplace=True, axis=1)
-    DATA.to_excel(book, sheet_name='Conducteur '+str(i+1))
-
-book.save()
 
 
 
