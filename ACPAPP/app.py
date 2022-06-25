@@ -6,6 +6,7 @@ import os
 import sys
 from tkinter import *
 from tkinter import filedialog, Text, Image, ttk
+from tkinter.filedialog import asksaveasfile
 from PIL import ImageTk, Image
 from click import command
 from main import *
@@ -37,7 +38,7 @@ L11.place(x=30, y=200)
 def open():
 
     root.filename = filedialog.askopenfilename(
-        title="Selectionnez un ficher", filetypes=[("Fichier Exel", "*.xlsx")])
+        title="Selectionnez un ficher", filetypes=[("Fichier Excel", "*.xlsx")])
     Operation01(root.filename)
 
 
@@ -101,7 +102,7 @@ img2 = Image.open("assets/valider.png")
 re = img2.resize((200, 50))
 img2 = ImageTk.PhotoImage(re)
 
-Button(root, image=img2, bd=0, bg="#707070",
+Button(root, image=img2, bd=0, bg="#037EF3",
        activebackground='#ffffff',
        highlightthickness=1,
        command=ab3at).place(x=575, y=400)
@@ -168,7 +169,7 @@ L41 = Label(root, background='white',
             font=('Segoe UI', 12, 'bold'),
             bg='white',
             fg='#707070',
-            text="Le nombre minimum possible est : " + str({min_Conducteur}))
+            text=f"Le nombre minimum possible est : {min_Conducteur}" )
 L41.place(x=30, y=610)
 
 # input yakho
@@ -209,7 +210,7 @@ img3 = Image.open("assets/valider.png")
 re = img3.resize((200, 50))
 img3 = ImageTk.PhotoImage(re)
 
-Button(root, image=img3, bd=0, bg="#707070",
+Button(root, image=img3, bd=0, bg="#037EF3",
        activebackground='#ffffff',
        highlightthickness=1,
        command=ab3at2).place(x=575, y=640)
@@ -219,7 +220,7 @@ L4 = Label(root, background='white',
            font=('Segoe UI', 12),
            bg='white',
            fg='#707070',
-           text="Ecrire un chiffre supérieur ou egale à : {min_Conducteur}")
+           text=f"Ecrire un chiffre supérieur ou egale à : {min_Conducteur}")
 L4.place(x=30, y=700)
 # button submit
 img4 = Image.open("assets/submit.png")
@@ -228,12 +229,12 @@ img4 = ImageTk.PhotoImage(re)
 
 
 def FinalOpe():
-    os.system(r'Operationpyomo.py')
+    SaveData()
+    os.system('python ACPAPP\Operationpyomo.py')
+
     
-Button(root, image=img4, bd=0, bg='#ffffff',
+Gen= Button(root, image=img4, bd=0, bg='#ffffff',
        activebackground='#ffffff',
-       command=FinalOpe).place(x=30, y=740)
-
-
-
+       command=FinalOpe)
+Gen.place(x=30, y=740)
 root.mainloop()

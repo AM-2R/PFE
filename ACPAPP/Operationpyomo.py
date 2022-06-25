@@ -1,15 +1,18 @@
 
 from main import *
+from pyomo.environ import *
+from pyomo.opt import SolverFactory
+import pyomo.environ
 
 import xlwt
 from tempfile import TemporaryFile
-
+from tkinter.filedialog import *
 import xlwt
 from xlwt.Workbook import *
 from pandas import ExcelWriter
 import xlsxwriter
 
-
+print (Adj)
 # Creation of a Concrete Model
 model = ConcreteModel()
 
@@ -118,7 +121,7 @@ Selected_Data.head
 # %%
 
 
-book = pd.ExcelWriter('Conducteur'+str(Date)+'-'+str(Brigade)+'.xlsx', engine='xlsxwriter')
+book = pd.ExcelWriter(f'Conducteur{Date}-{Brigade}.xlsx', engine='xlsxwriter')
 Selected_Data.to_excel(book, sheet_name='recaputulation ')
 
 for i in model.C:
@@ -127,3 +130,5 @@ for i in model.C:
     DATA.to_excel(book, sheet_name='Conducteur '+str(i+1))
 
 book.save()
+
+filename = asksaveasfilename(initialfile=f'Conducteur{Date}-{Brigade}.xlsx', initialdir='/', title = 'Save File', filetypes=(('Excel File', '.xlsx'),('Text File','.txt'),('All Files','*.*'))) 

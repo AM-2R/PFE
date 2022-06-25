@@ -2,25 +2,53 @@
 from collections import deque
 import numpy as np
 import pandas as pd
-
+import os
 import datetime as dt
 from datetime import datetime, timedelta
 import time
 import math
 from Functions import *
-from pyomo.environ import *
-from pyomo.opt import SolverFactory
-import pyomo.environ
 
 # %% [markdown]
-Data=''
-Nuit_par1=19
-Nuit_par2=8
+
+import ast
+# reading the data from the file
+with open(r'C:\Users\pc\Jupyter Notebook\PFE\ACPAPP\DATA.txt') as f:
+    file = f.read()
+
+      
+# reconstructing the data as a dictionary
+Rec = ast.literal_eval(file)
+
+Data=pd.read_csv(r'C:\Users\pc\Jupyter Notebook\PFE\ACPAPP\Data.csv')
+
+Nuit_par1=Rec['Nuit_par1']
+Nuit_par2=Rec['Nuit_par2']
+
+TimeGap1=Rec['TimeGap1']
+TimeGap2=Rec['TimeGap2']
+TimeGap4=Rec['TimeGap4']
+
+Brigade=Rec['Brigade']
+Date=Rec['Date']
+
+Selected_Data= pd.read_csv(r'C:\Users\pc\Jupyter Notebook\PFE\ACPAPP\Selected_Data.csv')
+Ex=Rec['Ex']
+Adj=Rec['Adj']
+
+min_Conducteur = Rec['min_Conducteur']
+Value_Terminal=Rec['Value_Terminal']
+
+Conducteur=Rec['Conducteur']
+
 # Imprting Data from excel File using pandas lib
 def Operation01(link):
     global Data
     global Nuit_par1
     global Nuit_par2
+    global TimeGap1
+    global TimeGap2
+    global TimeGap4
 # %%
     Data = pd.read_excel(link)
     Data.info
@@ -69,9 +97,6 @@ def Operation01(link):
     # TimeGap4=input('Give a Time GAP Terminal Ouest equal or bigger to 2  :') #input gap time based on the need and calculation 
     # TimeGap4=int(TimeGap4)
 
-    TimeGap1=4
-    TimeGap2=4
-    TimeGap4=6
 
     # this fenction transfer the date time into a number , we transfered the date into munites also , because in the night shift , the 00:00 comes after 23:00 , so we needed another variable to tell us that the day changed
 
@@ -129,8 +154,6 @@ def Operation01(link):
     # we transftered into munites every variables for us to create an interval of time .
 
     # %%
-    Nuit_par1=19
-    Nuit_par2=8
     # Nuit_par1=input('Heraire de demarage de brigade')
     # Nuit_par1=int(Nuit_par1)
     # Nuit_par2=input('Heraire de demarage de brigade')
@@ -146,8 +169,9 @@ def Operation01(link):
 
 
 
-Brigade=''
-Date=''
+
+
+
 
 
 def DateCheck(Dt):
@@ -157,28 +181,24 @@ def BrigadeCheck(Br):
     global Brigade
     Brigade=Br
 
-Selected_Data=[]
-Ex=0
-Value_Terminal=0
-Adj=0
-min_Conducteur=0
+
 def Operations02():
     global Data
     global Selected_Data
     global Date
     global Brigade
     global Ex
-    global Value_Terminal
     global Adj
     global min_Conducteur
     global Nuit_par1
     global Nuit_par2
+    global Value_Terminal
     print(Data)
     print(Date)
     print(Brigade)
     if Brigade=='Journee':
         Selected_Data=Data.loc[(Data['Date'] == Date) & (Data['Brigade'] == Brigade) ]
-    elif Brigade=='Nuit':
+    if Brigade=='Nuit':
         Time01 = dt.datetime.strptime(str(Date)+" "+str(Nuit_par1)+":00:00", '%Y-%m-%d %H:%M:%S')
         Time02 = dt.datetime.strptime(str(Date)+" "+str(Nuit_par2)+":00:00", '%Y-%m-%d %H:%M:%S')
 
@@ -195,10 +215,7 @@ def Operations02():
         Selected_Data = Data.loc[Data['DATETIME'].isin(Selected)]
 
     print(Selected_Data)
-    Graph_intervale=[]
-    for i in Selected_Data["Graph_intervale"]:
-        Graph_intervale.append(i)
-    # Graph_intervale=Selected_Data["Graph_intervale"]
+    Graph_intervale=Selected_Data["Graph_intervale"]
     Graph_intervale=np.array(Graph_intervale) #doing array to remove the indexes from the selections before , also sice we require a type list for our code to work 
     print(Graph_intervale)
 
@@ -260,15 +277,54 @@ def Operations02():
 
     min_Conducteur=(Minimum(C1)+Minimum(C2)+Minimum(C3))
     print(min_Conducteur)
+    print(Adj)
 
-Conducteur=0
+    
 def ConducteurCheck(C):
     global Conducteur
-    Conducteur=C
+    Conducteur=int(C)
 
+def SaveData():
+    global Rec
+    global Data
+    global Nuit_par1
+    global Nuit_par2
+    global TimeGap1
+    global TimeGap2
+    global TimeGap4
+    global Brigade
+    global Date
+    global Selected_Data
+    global Ex
+    global Value_Terminal
+    global Adj
+    global min_Conducteur
+    global Conducteur
+    os.makedirs(r'C:\Users\pc\Jupyter Notebook\PFE\ACPAPP', exist_ok=True)  
+    Data.to_csv(r'C:\Users\pc\Jupyter Notebook\PFE\ACPAPP\Data.csv')
+    os.makedirs(r'C:\Users\pc\Jupyter Notebook\PFE\ACPAPP', exist_ok=True)
+    Selected_Data.to_csv(r'C:\Users\pc\Jupyter Notebook\PFE\ACPAPP\Selected_Data.csv')
+    Rec['Nuit_par1']=Nuit_par1
+    Rec['Nuit_par2']=Nuit_par2
+    
+    Rec['TimeGap1']=TimeGap1
+    Rec['TimeGap2']=TimeGap2
+    Rec['TimeGap4']=TimeGap4
 
+    Rec['Brigade']=Brigade
+    Rec['Date']=Date
 
+    Rec['Ex']=Ex
+    Rec['Adj']=Adj
+    Rec['Value_Terminal']=Value_Terminal
+    Rec['min_Conducteur']=min_Conducteur
+    Rec['Conducteur']=Conducteur
 
+    # open file for writing
+    f = open(r"C:\Users\pc\Jupyter Notebook\PFE\ACPAPP\DATA.txt","w")
+    f.truncate(0)
+    # write file
+    f.write( str(Rec) )
 
-
-
+    # close file
+    f.close()
