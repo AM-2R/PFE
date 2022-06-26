@@ -28,7 +28,7 @@ Nuit_par2=Rec['Nuit_par2']
 TimeGap1=Rec['TimeGap1']
 TimeGap2=Rec['TimeGap2']
 TimeGap4=Rec['TimeGap4']
-
+options=Rec['options']
 Brigade=Rec['Brigade']
 Date=Rec['Date']
 
@@ -171,10 +171,13 @@ def Operation01(link):
 
 
 
-
-
+def Datelist():
+    global Data
+    global options
+    options=Data['Date'].unique()
 
 def DateCheck(Dt):
+    
     global Date
     Date=Dt
 def BrigadeCheck(Br):
@@ -285,6 +288,7 @@ def ConducteurCheck(C):
     Conducteur=int(C)
 
 def SaveData():
+    global options
     global Rec
     global Data
     global Nuit_par1
@@ -310,7 +314,7 @@ def SaveData():
     Rec['TimeGap1']=TimeGap1
     Rec['TimeGap2']=TimeGap2
     Rec['TimeGap4']=TimeGap4
-
+    Rec['options']=options
     Rec['Brigade']=Brigade
     Rec['Date']=Date
 
